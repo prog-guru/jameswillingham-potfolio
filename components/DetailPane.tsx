@@ -79,7 +79,7 @@ export function DetailPane({ selectedExperience }: DetailPaneProps) {
             transition={{ duration: 0.3 }}
           >
             {/* Skills Matrix */}
-            <div className="mb-8">
+            <div id="skills" className="mb-8">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6">Skills</h2>
               <div className="space-y-6">
                 {skillGroups.map((group, index) => (

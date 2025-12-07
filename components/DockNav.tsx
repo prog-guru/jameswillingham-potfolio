@@ -33,13 +33,22 @@ export function DockNav() {
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // For skills/education/contact in DetailPane, scroll to top first then to section
+      if (sectionId === 'skills' || sectionId === 'education' || sectionId === 'contact') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+      } else {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
       setActiveSection(sectionId);
     }
   };
