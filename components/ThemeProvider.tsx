@@ -31,10 +31,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.classList.toggle('dark', newTheme === 'dark');
   };
 
-  if (!mounted) {
-    return <>{children}</>;
-  }
-
+  // Always provide the context, even during SSR
+  // This prevents errors when useTheme is called during static generation
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
@@ -45,12 +43,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    // Return default values during SSR or when outside provider
-    return {
-      theme: 'light' as Theme,
-      toggleTheme: () => {},
-    };
+    throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
 }
-
